@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LookEasy - Moda Online</title>
+    <title>Sobre Nós - LookEasy</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -69,45 +69,44 @@
         </div>
     </header>
 
-    <!-- Banner Hero -->
-    <section class="hero-banner">
-        <div class="hero-content">
-            <div class="hero-text">
-                <h2 class="limited-offer">LIMITED TIME OFFER</h2>
-                <h1 class="sale-text">SALE 50% OFF</h1>
-                <button class="cta-button">SHOP NOW</button>
-            </div>
-            <div class="hero-image">
-                <img src="https://placehold.co/400x500/FFD700/000000?text=Modelo+com+Sacolas"
-                    alt="Modelo com sacolas de compras">
-            </div>
-        </div>
-    </section>
-
-    <!-- Menu de Filtros -->
-    <section class="filter-menu">
-        <div class="filter-pills">
-            <button class="pill-btn active" data-category="feminino">Feminino</button>
-            <button class="pill-btn" data-category="masculino">Masculino</button>
-            <button class="pill-btn" data-category="acessorios">Acessórios</button>
-            <button class="pill-btn" data-category="outros">Outros</button>
-        </div>
-    </section>
-
     <!-- Conteúdo Principal -->
-    <main class="main-content">
-        <section class="products-section">
-            <h2 class="section-title">DESTAQUES</h2>
-            <div class="products-grid" id="gridDestaques">
-                <p style="text-align:center; width:100%;">Carregando produtos...</p>
-            </div>
-        </section>
+    <main class="main-content" style="margin-top: 120px; min-height: 60vh;">
+        <div class="container" style="max-width: 800px; margin: 0 auto;">
+            <h1 style="margin-bottom: 2rem; text-align: center;">Sobre a LookEasy</h1>
 
-        <section class="products-section">
-            <h2 class="section-title">PARA VOCÊ</h2>
-            <div class="products-grid" id="gridParaVoce">
+            <div style="background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                <p style="margin-bottom: 1.5rem; font-size: 1.1rem;">
+                    Bem-vindo à <strong>LookEasy</strong>, sua loja de moda online favorita! Nascemos com a missão de
+                    democratizar o acesso às últimas tendências da moda, oferecendo produtos de alta qualidade a preços
+                    acessíveis.
+                </p>
+
+                <h2 style="margin: 2rem 0 1rem; color: var(--primary-yellow);">Nossa História</h2>
+                <p style="margin-bottom: 1.5rem;">
+                    Fundada em 2024, a LookEasy começou como um pequeno projeto universitário e rapidamente se
+                    transformou em uma plataforma robusta de e-commerce. Acreditamos que a moda é uma forma de expressão
+                    e que todos devem ter a oportunidade de se vestir bem e se sentir confiantes.
+                </p>
+
+                <h2 style="margin: 2rem 0 1rem; color: var(--primary-yellow);">Nossa Missão</h2>
+                <p style="margin-bottom: 1.5rem;">
+                    Proporcionar uma experiência de compra online fácil, segura e inspiradora. Queremos que você
+                    encontre o look perfeito para cada momento da sua vida, sem complicações.
+                </p>
+
+                <h2 style="margin: 2rem 0 1rem; color: var(--primary-yellow);">Nossos Valores</h2>
+                <ul style="margin-left: 1.5rem; margin-bottom: 1.5rem;">
+                    <li style="margin-bottom: 0.5rem;"><strong>Inovação:</strong> Buscamos sempre as melhores
+                        tecnologias para melhorar sua experiência.</li>
+                    <li style="margin-bottom: 0.5rem;"><strong>Qualidade:</strong> Selecionamos nossos produtos com
+                        rigor para garantir sua satisfação.</li>
+                    <li style="margin-bottom: 0.5rem;"><strong>Transparência:</strong> Relacionamento honesto e claro
+                        com nossos clientes.</li>
+                    <li style="margin-bottom: 0.5rem;"><strong>Sustentabilidade:</strong> Preocupamo-nos com o impacto
+                        ambiental de nossas operações.</li>
+                </ul>
             </div>
-        </section>
+        </div>
     </main>
 
     <footer class="main-footer">
@@ -161,10 +160,7 @@
             </div>
 
             <div class="cart-body">
-                <div id="cartItems" class="cart-items">
-                    <!-- Itens do carrinho serão inseridos aqui dinamicamente -->
-                </div>
-
+                <div id="cartItems" class="cart-items"></div>
                 <div id="cartEmpty" class="cart-empty" style="display: none;">
                     <svg width="64" height="64" viewBox="0 0 24 24" fill="currentColor" style="opacity: 0.3;">
                         <path

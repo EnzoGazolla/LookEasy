@@ -2,7 +2,7 @@
 // 1. FUNCIONALIDADES GLOBAIS (UI/UX)
 // ==========================================
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Inicializar sistema de autenticação
     if (typeof auth !== 'undefined') auth.init();
 
@@ -13,17 +13,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Inicializar listeners globais
     setupGlobalListeners();
-    
+
     // Atualizar contador do carrinho ao carregar
     updateCartCount();
-    
+
     // Configurar lazy loading de imagens
     setupLazyLoading();
 });
 
 function setupGlobalListeners() {
     // Fechar dropdowns quando clicar fora
-    document.addEventListener('click', function(event) {
+    document.addEventListener('click', function (event) {
         // Dropdown Categorias
         const categoryContainer = document.querySelector('.dropdown');
         if (categoryContainer && !categoryContainer.contains(event.target)) {
@@ -34,7 +34,7 @@ function setupGlobalListeners() {
                 button.innerHTML = 'Categorias ▼';
             }
         }
-        
+
         // Dropdown Perfil
         const profileContainer = document.querySelector('.profile-container');
         if (profileContainer && !profileContainer.contains(event.target)) {
@@ -46,7 +46,7 @@ function setupGlobalListeners() {
     // Busca (Header)
     const searchButton = document.querySelector('.search-btn');
     const searchInput = document.querySelector('.search-bar input');
-    
+
     if (searchButton && searchInput) {
         searchButton.addEventListener('click', performSearch);
         searchInput.addEventListener('keypress', (e) => {
@@ -57,7 +57,7 @@ function setupGlobalListeners() {
     // Botão CTA do Banner (Scroll suave)
     const ctaButton = document.querySelector('.cta-button');
     if (ctaButton) {
-        ctaButton.addEventListener('click', function() {
+        ctaButton.addEventListener('click', function () {
             const section = document.querySelector('.products-section');
             if (section) section.scrollIntoView({ behavior: 'smooth' });
         });
@@ -68,7 +68,7 @@ function setupGlobalListeners() {
 function toggleDropdown() {
     const dropdown = document.getElementById('categoryDropdown');
     const button = document.querySelector('.dropdown-btn');
-    
+
     if (dropdown.style.display === 'block') {
         dropdown.style.display = 'none';
         button.innerHTML = 'Categorias ▼';
@@ -82,7 +82,7 @@ function toggleDropdown() {
 function performSearch() {
     const searchInput = document.querySelector('.search-bar input');
     const term = searchInput.value.trim().toLowerCase();
-    if(term) {
+    if (term) {
         showNotification('Busca', `Buscando por: ${term}`);
         // Aqui você pode redirecionar para uma página de busca ou filtrar
     }
@@ -95,7 +95,7 @@ function setupLazyLoading() {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 const img = entry.target;
-                img.style.opacity = '1'; 
+                img.style.opacity = '1';
                 obs.unobserve(img);
             }
         });
@@ -114,7 +114,7 @@ function setupLazyLoading() {
 function loadHomeProducts() {
     // Buscar produtos do "Banco de Dados" (localStorage)
     const allProducts = db.getProducts();
-    
+
     // Filtrar apenas ativos
     const activeProducts = allProducts.filter(p => p.ativo !== false);
 
@@ -145,15 +145,15 @@ function renderProductSection(products, containerId) {
             buttonHTML = `<button class="buy-btn" disabled style="background-color: #ccc; cursor: not-allowed;">Indisponível</button>`;
             // Texto vermelho forte
             stockDisplay = `<div style="margin-top: 8px; color: #EF4444; font-weight: 800; font-size: 0.9rem;">🚫 Sem estoque</div>`;
-        
-        // 2. Pouco Estoque (Menos de 5)
+
+            // 2. Pouco Estoque (Menos de 5)
         } else if (product.estoque <= 5) {
             badgeHTML = '<span class="stock-badge low">Últimas Unidades</span>';
             buttonHTML = `<button class="buy-btn" onclick="addToCart(${product.id}); event.stopPropagation();">Comprar</button>`;
             // Texto laranja/vermelho
             stockDisplay = `<div style="margin-top: 8px; color: #d9534f; font-weight: bold; font-size: 0.9rem;">🔥 Restam apenas ${product.estoque}</div>`;
-        
-        // 3. Estoque Normal
+
+            // 3. Estoque Normal
         } else {
             buttonHTML = `<button class="buy-btn" onclick="addToCart(${product.id}); event.stopPropagation();">Comprar</button>`;
             // Texto escuro padrão
@@ -183,7 +183,7 @@ function renderProductSection(products, containerId) {
 function showProductDetails(id) {
     // Apenas visual, poderia redirecionar para produto.html
     const product = db.getProductById(id);
-    if(product) showNotification('Visualizar', `Você clicou em: ${product.nome}`);
+    if (product) showNotification('Visualizar', `Você clicou em: ${product.nome}`);
 }
 
 // ==========================================
@@ -193,7 +193,7 @@ function showProductDetails(id) {
 // Adicionar ao Carrinho (Com verificação de estoque)
 function addToCart(productId) {
     const product = db.getProductById(productId);
-    
+
     if (!product) {
         showNotification('Erro', 'Produto não encontrado.');
         return;
@@ -207,11 +207,11 @@ function addToCart(productId) {
 
     // Tentar adicionar
     const result = db.addToCart(productId, 1);
-    
+
     if (result.success) {
         updateCartCount();
         showNotification('Sucesso', `${product.nome} adicionado!`);
-        
+
         // Se o modal estiver aberto, atualiza a lista
         const modal = document.getElementById('cartModal');
         if (modal && modal.classList.contains('active')) {
@@ -224,7 +224,7 @@ function addToCart(productId) {
 
 function openCart() {
     const modal = document.getElementById('cartModal');
-    if(modal) {
+    if (modal) {
         modal.classList.add('active');
         renderCart();
     }
@@ -232,7 +232,7 @@ function openCart() {
 
 function closeCart() {
     const modal = document.getElementById('cartModal');
-    if(modal) modal.classList.remove('active');
+    if (modal) modal.classList.remove('active');
 }
 
 function renderCart() {
@@ -245,12 +245,12 @@ function renderCart() {
 
     if (cart.length === 0) {
         container.style.display = 'none';
-        if(emptyMsg) emptyMsg.style.display = 'flex';
-        if(totalEl) totalEl.textContent = 'R$ 0,00';
+        if (emptyMsg) emptyMsg.style.display = 'flex';
+        if (totalEl) totalEl.textContent = 'R$ 0,00';
         return;
     }
 
-    if(emptyMsg) emptyMsg.style.display = 'none';
+    if (emptyMsg) emptyMsg.style.display = 'none';
     container.style.display = 'flex';
 
     container.innerHTML = cart.map(item => `
@@ -278,7 +278,7 @@ function renderCart() {
         </div>
     `).join('');
 
-    if(totalEl) totalEl.textContent = `R$ ${db.calculateCartTotal().toFixed(2)}`;
+    if (totalEl) totalEl.textContent = `R$ ${db.calculateCartTotal().toFixed(2)}`;
 }
 
 function updateQuantity(itemId, newQty) {
@@ -299,7 +299,7 @@ function removeFromCart(itemId) {
 }
 
 function clearCart() {
-    if(confirm("Tem certeza que deseja esvaziar o carrinho?")) {
+    if (confirm("Tem certeza que deseja esvaziar o carrinho?")) {
         db.clearCart();
         renderCart();
         updateCartCount();
@@ -324,6 +324,16 @@ function checkout() {
         return;
     }
 
+    // Verificar se usuário está logado
+    const session = db.getCurrentSession();
+    if (!session) {
+        showNotification('Atenção', 'Faça login para finalizar a compra.');
+        setTimeout(() => {
+            window.location.href = 'login.html';
+        }, 1500);
+        return;
+    }
+
     // 1. Tentar dar baixa no estoque
     let errors = [];
     cart.forEach(item => {
@@ -334,24 +344,24 @@ function checkout() {
         }
     });
 
-    if (errors.length > 0) {
-        showNotification('Erro', errors[0]); // Mostra o primeiro erro
-        return;
-    }
 
-    // 2. Sucesso
-    const total = db.calculateCartTotal();
-    showNotification('Sucesso', `Compra de R$ ${total.toFixed(2)} realizada!`);
-    
-    // 3. Limpar dados
+    // 4. Sucesso
+    showNotification('Sucesso', `Pedido #${orderResult.order.id} realizado com sucesso! Total: R$ ${total.toFixed(2)}`);
+
+    // 5. Limpar carrinho
     db.clearCart();
     closeCart();
     updateCartCount();
-    
-    // 4. Atualizar a vitrine para refletir novo estoque
-    if(document.getElementById('gridDestaques')) {
+
+    // 6. Atualizar vitrine
+    if (document.getElementById('gridDestaques')) {
         loadHomeProducts();
     }
+
+    // 7. Redirecionar para página de pedidos após 2 segundos
+    setTimeout(() => {
+        window.location.href = 'pedidos.html';
+    }, 2000);
 }
 
 // ==========================================
@@ -361,10 +371,10 @@ function checkout() {
 function toggleProfileMenu() {
     const dropdown = document.getElementById('profileDropdown');
     const isActive = dropdown.classList.contains('active');
-    
+
     // Fechar outros dropdowns
     const catDropdown = document.getElementById('categoryDropdown');
-    if(catDropdown) catDropdown.style.display = 'none';
+    if (catDropdown) catDropdown.style.display = 'none';
 
     if (!isActive) {
         updateProfileMenu(); // Renderiza conteúdo baseado no login
@@ -377,7 +387,7 @@ function toggleProfileMenu() {
 function updateProfileMenu() {
     const dropdown = document.getElementById('profileDropdown');
     const user = (typeof auth !== 'undefined') ? auth.getCurrentUser() : null;
-    
+
     if (user) {
         dropdown.innerHTML = `
             <div class="profile-user-info">
@@ -403,17 +413,17 @@ function updateProfileMenu() {
 
 function handleProfileAction(action) {
     const dropdown = document.getElementById('profileDropdown');
-    if(dropdown) dropdown.classList.remove('active');
+    if (dropdown) dropdown.classList.remove('active');
 
-    switch(action) {
+    switch (action) {
         case 'logout':
-            if(auth) auth.logout();
+            if (auth) auth.logout();
             break;
         case 'admin':
             window.location.href = 'admin/dashboard.html';
             break;
         case 'meus-pedidos':
-            showNotification('Perfil', 'Histórico de pedidos em breve.');
+            window.location.href = 'pedidos.html';
             break;
     }
 }
@@ -426,7 +436,7 @@ function showNotification(title, message) {
 
     const notification = document.createElement('div');
     notification.className = 'notification-toast';
-    
+
     // Estilo inline para garantir funcionamento sem CSS extra
     notification.style.cssText = `
         position: fixed;
@@ -443,14 +453,14 @@ function showNotification(title, message) {
         animation: slideIn 0.3s ease-out;
         font-family: 'Segoe UI', sans-serif;
     `;
-    
+
     notification.innerHTML = `
         <div style="font-weight:bold; margin-bottom:5px; color:#FFD700">${title}</div>
         <div style="font-size:0.9rem">${message}</div>
     `;
-    
+
     document.body.appendChild(notification);
-    
+
     // Animação CSS (Adicionada dinamicamente)
     if (!document.getElementById('toast-style')) {
         const style = document.createElement('style');

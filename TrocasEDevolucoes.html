@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LookEasy - Moda Online</title>
+    <title>Trocas e Devoluções - LookEasy</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -69,45 +69,43 @@
         </div>
     </header>
 
-    <!-- Banner Hero -->
-    <section class="hero-banner">
-        <div class="hero-content">
-            <div class="hero-text">
-                <h2 class="limited-offer">LIMITED TIME OFFER</h2>
-                <h1 class="sale-text">SALE 50% OFF</h1>
-                <button class="cta-button">SHOP NOW</button>
-            </div>
-            <div class="hero-image">
-                <img src="https://placehold.co/400x500/FFD700/000000?text=Modelo+com+Sacolas"
-                    alt="Modelo com sacolas de compras">
-            </div>
-        </div>
-    </section>
-
-    <!-- Menu de Filtros -->
-    <section class="filter-menu">
-        <div class="filter-pills">
-            <button class="pill-btn active" data-category="feminino">Feminino</button>
-            <button class="pill-btn" data-category="masculino">Masculino</button>
-            <button class="pill-btn" data-category="acessorios">Acessórios</button>
-            <button class="pill-btn" data-category="outros">Outros</button>
-        </div>
-    </section>
-
     <!-- Conteúdo Principal -->
-    <main class="main-content">
-        <section class="products-section">
-            <h2 class="section-title">DESTAQUES</h2>
-            <div class="products-grid" id="gridDestaques">
-                <p style="text-align:center; width:100%;">Carregando produtos...</p>
-            </div>
-        </section>
+    <main class="main-content" style="margin-top: 120px; min-height: 60vh;">
+        <div class="container" style="max-width: 800px; margin: 0 auto;">
+            <h1 style="margin-bottom: 2rem; text-align: center;">Trocas e Devoluções</h1>
 
-        <section class="products-section">
-            <h2 class="section-title">PARA VOCÊ</h2>
-            <div class="products-grid" id="gridParaVoce">
+            <div style="background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                <p style="margin-bottom: 1.5rem;">
+                    Queremos que você ame sua compra! Se algo não deu certo, estamos aqui para ajudar. Confira nossa
+                    política de trocas e devoluções abaixo.
+                </p>
+
+                <h3 style="margin: 1.5rem 0 0.5rem;">1. Prazo para Troca ou Devolução</h3>
+                <p style="margin-bottom: 1rem;">
+                    Você tem até <strong>30 dias corridos</strong> após o recebimento do pedido para solicitar a troca
+                    ou devolução. Para produtos com defeito, o prazo é de 90 dias.
+                </p>
+
+                <h3 style="margin: 1.5rem 0 0.5rem;">2. Condições do Produto</h3>
+                <p style="margin-bottom: 1rem;">
+                    O produto deve estar sem uso, com a etiqueta original afixada e na embalagem original. Produtos
+                    lavados, usados ou com odores não serão aceitos.
+                </p>
+
+                <h3 style="margin: 1.5rem 0 0.5rem;">3. Como Solicitar</h3>
+                <p style="margin-bottom: 1rem;">
+                    Entre em contato conosco através da página de <a href="Atendimento.html"
+                        style="color: var(--primary-yellow); text-decoration: none; font-weight: bold;">Atendimento</a>
+                    informando o número do pedido e o motivo da troca/devolução.
+                </p>
+
+                <h3 style="margin: 1.5rem 0 0.5rem;">4. Reembolso</h3>
+                <p style="margin-bottom: 1rem;">
+                    O reembolso será realizado na mesma forma de pagamento utilizada na compra. Para cartão de crédito,
+                    o estorno poderá ocorrer em até duas faturas subsequentes.
+                </p>
             </div>
-        </section>
+        </div>
     </main>
 
     <footer class="main-footer">
@@ -161,10 +159,7 @@
             </div>
 
             <div class="cart-body">
-                <div id="cartItems" class="cart-items">
-                    <!-- Itens do carrinho serão inseridos aqui dinamicamente -->
-                </div>
-
+                <div id="cartItems" class="cart-items"></div>
                 <div id="cartEmpty" class="cart-empty" style="display: none;">
                     <svg width="64" height="64" viewBox="0 0 24 24" fill="currentColor" style="opacity: 0.3;">
                         <path

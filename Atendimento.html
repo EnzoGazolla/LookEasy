@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LookEasy - Moda Online</title>
+    <title>Atendimento - LookEasy</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -69,45 +69,57 @@
         </div>
     </header>
 
-    <!-- Banner Hero -->
-    <section class="hero-banner">
-        <div class="hero-content">
-            <div class="hero-text">
-                <h2 class="limited-offer">LIMITED TIME OFFER</h2>
-                <h1 class="sale-text">SALE 50% OFF</h1>
-                <button class="cta-button">SHOP NOW</button>
-            </div>
-            <div class="hero-image">
-                <img src="https://placehold.co/400x500/FFD700/000000?text=Modelo+com+Sacolas"
-                    alt="Modelo com sacolas de compras">
-            </div>
-        </div>
-    </section>
-
-    <!-- Menu de Filtros -->
-    <section class="filter-menu">
-        <div class="filter-pills">
-            <button class="pill-btn active" data-category="feminino">Feminino</button>
-            <button class="pill-btn" data-category="masculino">Masculino</button>
-            <button class="pill-btn" data-category="acessorios">Acessórios</button>
-            <button class="pill-btn" data-category="outros">Outros</button>
-        </div>
-    </section>
-
     <!-- Conteúdo Principal -->
-    <main class="main-content">
-        <section class="products-section">
-            <h2 class="section-title">DESTAQUES</h2>
-            <div class="products-grid" id="gridDestaques">
-                <p style="text-align:center; width:100%;">Carregando produtos...</p>
-            </div>
-        </section>
+    <main class="main-content" style="margin-top: 120px; min-height: 60vh;">
+        <div class="container" style="max-width: 800px; margin: 0 auto;">
+            <h1 style="margin-bottom: 2rem; text-align: center;">Central de Atendimento</h1>
 
-        <section class="products-section">
-            <h2 class="section-title">PARA VOCÊ</h2>
-            <div class="products-grid" id="gridParaVoce">
+            <div style="background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 3rem;">
+                    <div style="text-align: center; padding: 1.5rem; background: #f8f9fa; border-radius: 8px;">
+                        <h3 style="margin-bottom: 0.5rem;">📞 Telefone</h3>
+                        <p>(11) 9999-9999</p>
+                        <small>Seg a Sex: 09h às 18h</small>
+                    </div>
+                    <div style="text-align: center; padding: 1.5rem; background: #f8f9fa; border-radius: 8px;">
+                        <h3 style="margin-bottom: 0.5rem;">📧 Email</h3>
+                        <p>contato@lookeasy.com</p>
+                        <small>Respondemos em até 24h</small>
+                    </div>
+                </div>
+
+                <h2 style="margin-bottom: 1.5rem;">Envie uma mensagem</h2>
+                <form onsubmit="event.preventDefault(); alert('Mensagem enviada com sucesso!'); this.reset();"
+                    style="display: flex; flex-direction: column; gap: 1rem;">
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Nome Completo</label>
+                        <input type="text" required
+                            style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px;">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Email</label>
+                        <input type="email" required
+                            style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px;">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Assunto</label>
+                        <select style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px;">
+                            <option>Dúvida sobre produto</option>
+                            <option>Status do pedido</option>
+                            <option>Troca ou devolução</option>
+                            <option>Outros</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Mensagem</label>
+                        <textarea rows="5" required
+                            style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px;"></textarea>
+                    </div>
+                    <button type="submit" class="cta-button" style="width: 100%; margin-top: 1rem;">Enviar
+                        Mensagem</button>
+                </form>
             </div>
-        </section>
+        </div>
     </main>
 
     <footer class="main-footer">
@@ -161,10 +173,7 @@
             </div>
 
             <div class="cart-body">
-                <div id="cartItems" class="cart-items">
-                    <!-- Itens do carrinho serão inseridos aqui dinamicamente -->
-                </div>
-
+                <div id="cartItems" class="cart-items"></div>
                 <div id="cartEmpty" class="cart-empty" style="display: none;">
                     <svg width="64" height="64" viewBox="0 0 24 24" fill="currentColor" style="opacity: 0.3;">
                         <path

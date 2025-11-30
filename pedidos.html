@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LookEasy - Moda Online</title>
+    <title>Meus Pedidos - LookEasy</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -69,46 +69,24 @@
         </div>
     </header>
 
-    <!-- Banner Hero -->
-    <section class="hero-banner">
-        <div class="hero-content">
-            <div class="hero-text">
-                <h2 class="limited-offer">LIMITED TIME OFFER</h2>
-                <h1 class="sale-text">SALE 50% OFF</h1>
-                <button class="cta-button">SHOP NOW</button>
-            </div>
-            <div class="hero-image">
-                <img src="https://placehold.co/400x500/FFD700/000000?text=Modelo+com+Sacolas"
-                    alt="Modelo com sacolas de compras">
-            </div>
+    <!-- Container Principal -->
+    <div class="pedidos-container">
+        <div class="pedidos-header">
+            <h1>Meus Pedidos</h1>
+            <p>Acompanhe o status dos seus pedidos</p>
         </div>
-    </section>
 
-    <!-- Menu de Filtros -->
-    <section class="filter-menu">
-        <div class="filter-pills">
-            <button class="pill-btn active" data-category="feminino">Feminino</button>
-            <button class="pill-btn" data-category="masculino">Masculino</button>
-            <button class="pill-btn" data-category="acessorios">Acessórios</button>
-            <button class="pill-btn" data-category="outros">Outros</button>
+        <div class="pedidos-list" id="pedidosList">
+            <!-- Pedidos serão carregados aqui -->
         </div>
-    </section>
 
-    <!-- Conteúdo Principal -->
-    <main class="main-content">
-        <section class="products-section">
-            <h2 class="section-title">DESTAQUES</h2>
-            <div class="products-grid" id="gridDestaques">
-                <p style="text-align:center; width:100%;">Carregando produtos...</p>
-            </div>
-        </section>
-
-        <section class="products-section">
-            <h2 class="section-title">PARA VOCÊ</h2>
-            <div class="products-grid" id="gridParaVoce">
-            </div>
-        </section>
-    </main>
+        <div class="no-pedidos" id="noPedidos" style="display: none;">
+            <div class="no-pedidos-icon">📦</div>
+            <h3>Você ainda não fez nenhum pedido</h3>
+            <p>Comece a explorar nossos produtos e faça seu primeiro pedido!</p>
+            <a href="index.html" class="cta-button">Ir às Compras</a>
+        </div>
+    </div>
 
     <footer class="main-footer">
         <div class="footer-content">
@@ -161,10 +139,7 @@
             </div>
 
             <div class="cart-body">
-                <div id="cartItems" class="cart-items">
-                    <!-- Itens do carrinho serão inseridos aqui dinamicamente -->
-                </div>
-
+                <div id="cartItems" class="cart-items"></div>
                 <div id="cartEmpty" class="cart-empty" style="display: none;">
                     <svg width="64" height="64" viewBox="0 0 24 24" fill="currentColor" style="opacity: 0.3;">
                         <path
@@ -190,6 +165,131 @@
 
     <script src="js/database.js"></script>
     <script src="js/auth.js"></script>
+    <script>
+        // Proteger página - apenas usuários logados
+        document.addEventListener('DOMContentLoaded', function () {
+            // Verificar autenticação
+            if (typeof auth !== 'undefined') {
+                auth.init();
+                if (!auth.isLoggedIn()) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+            }
+
+            // Carregar pedidos
+            loadPedidos();
+
+            // Atualizar contador do carrinho
+            updateCartCount();
+        });
+
+        // Carregar pedidos do usuário
+        function loadPedidos() {
+            const session = db.getCurrentSession();
+            if (!session) return;
+
+            const pedidos = db.getOrdersByUser(session.user.id);
+            const pedidosList = document.getElementById('pedidosList');
+            const noPedidos = document.getElementById('noPedidos');
+
+            if (pedidos.length === 0) {
+                pedidosList.style.display = 'none';
+                noPedidos.style.display = 'block';
+                return;
+            }
+
+            pedidosList.style.display = 'flex';
+            noPedidos.style.display = 'none';
+
+            pedidosList.innerHTML = pedidos.map(pedido => {
+                const data = new Date(pedido.dataPedido);
+                const dataFormatada = data.toLocaleDateString('pt-BR');
+
+                const statusClass = `status-${pedido.status}`;
+                const statusTexto = {
+                    pendente: 'Pendente',
+                    processando: 'Processando',
+                    enviado: 'Enviado',
+                    entregue: 'Entregue',
+                    cancelado: 'Cancelado'
+                }[pedido.status];
+
+                const podeCancelar = pedido.status === 'pendente' || pedido.status === 'processando';
+
+                return `
+                    <div class="pedido-card">
+                        <div class="pedido-header-card">
+                            <div class="pedido-info">
+                                <div class="pedido-info-item">
+                                    <span class="pedido-info-label">Pedido</span>
+                                    <span class="pedido-info-value">#${pedido.id}</span>
+                                </div>
+                                <div class="pedido-info-item">
+                                    <span class="pedido-info-label">Data</span>
+                                    <span class="pedido-info-value">${dataFormatada}</span>
+                                </div>
+                                <div class="pedido-info-item">
+                                    <span class="pedido-info-label">Itens</span>
+                                    <span class="pedido-info-value">${pedido.itens.length}</span>
+                                </div>
+                            </div>
+                            <span class="pedido-status ${statusClass}">${statusTexto}</span>
+                        </div>
+
+                        <div class="pedido-body">
+                            <div class="pedido-itens">
+                                ${pedido.itens.map(item => `
+                                    <div class="pedido-item">
+                                        <div class="pedido-item-image">
+                                            <img src="${item.imagem}" alt="${item.nome}">
+                                        </div>
+                                        <div class="pedido-item-details">
+                                            <div class="pedido-item-nome">${item.nome}</div>
+                                            ${item.tamanho ? `<div class="pedido-item-info">Tamanho: ${item.tamanho}</div>` : ''}
+                                            ${item.cor ? `<div class="pedido-item-info">Cor: ${item.cor}</div>` : ''}
+                                            <div class="pedido-item-info">Quantidade: ${item.quantidade}</div>
+                                            <div class="pedido-item-preco">R$ ${item.preco.toFixed(2)}</div>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <div class="pedido-footer">
+                            <div class="pedido-total">
+                                <span class="pedido-total-label">Total:</span>
+                                <span class="pedido-total-value">R$ ${pedido.total.toFixed(2)}</span>
+                            </div>
+                            <div class="pedido-acoes">
+                                ${podeCancelar ? `
+                                    <button class="btn-cancelar" onclick="cancelarPedido(${pedido.id})">
+                                        Cancelar Pedido
+                                    </button>
+                                ` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Cancelar pedido
+        function cancelarPedido(pedidoId) {
+            if (!confirm('Tem certeza que deseja cancelar este pedido?')) {
+                return;
+            }
+
+            const result = db.cancelOrder(pedidoId);
+
+            if (result.success) {
+                showNotification('Sucesso', 'Pedido cancelado com sucesso!');
+                loadPedidos();
+            } else {
+                showNotification('Erro', result.message || 'Erro ao cancelar pedido');
+            }
+        }
+    </script>
     <script src="script.js"></script>
 </body>
 

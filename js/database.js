@@ -17,6 +17,9 @@ class DatabaseManager {
         if (!localStorage.getItem('lookEasySettings')) {
             this.createDefaultSettings();
         }
+        if (!localStorage.getItem('lookEasyOrders')) {
+            this.createDefaultOrders();
+        }
     }
 
     // Cria usuários padrão
@@ -41,7 +44,7 @@ class DatabaseManager {
                 ativo: true
             }
         ];
-        
+
         localStorage.setItem('lookEasyUsers', JSON.stringify(defaultUsers));
     }
 
@@ -193,7 +196,7 @@ class DatabaseManager {
                 estoque: 25
             }
         ];
-        
+
         localStorage.setItem('lookEasyProducts', JSON.stringify(defaultProducts));
     }
 
@@ -212,8 +215,37 @@ class DatabaseManager {
                 estoqueMinimo: 5
             }
         };
-        
+
         localStorage.setItem('lookEasySettings', JSON.stringify(defaultSettings));
+    }
+
+    // Cria pedidos padrão
+    createDefaultOrders() {
+        const defaultOrders = [
+            {
+                id: 1,
+                userId: 2, // Cliente Teste
+                nomeCliente: "Cliente Teste",
+                emailCliente: "cliente@lookeasy.com",
+                itens: [
+                    {
+                        productId: 1,
+                        nome: "Camiseta Premium",
+                        preco: 89.90,
+                        quantidade: 1,
+                        tamanho: "M",
+                        cor: "Preto",
+                        imagem: "https://placehold.co/200x250/E5E7EB/1F2937?text=Camiseta+Premium"
+                    }
+                ],
+                total: 89.90,
+                status: "entregue",
+                dataPedido: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(), // 7 dias atrás
+                dataAtualizacao: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString()
+            }
+        ];
+
+        localStorage.setItem('lookEasyOrders', JSON.stringify(defaultOrders));
     }
 
     // Sistema de Hash simples para senhas (em produção usar bcrypt)
@@ -228,7 +260,7 @@ class DatabaseManager {
     }
 
     // ===== MÉTODOS DE USUÁRIOS =====
-    
+
     // Verificar se email já existe
     emailExists(email) {
         const users = this.getUsers();
@@ -263,7 +295,7 @@ class DatabaseManager {
             dataCriacao: new Date().toISOString(),
             ativo: true
         };
-        
+
         users.push(newUser);
         localStorage.setItem('lookEasyUsers', JSON.stringify(users));
         return newUser;
@@ -273,7 +305,7 @@ class DatabaseManager {
     updateUser(id, userData) {
         const users = this.getUsers();
         const index = users.findIndex(user => user.id === parseInt(id));
-        
+
         if (index !== -1) {
             users[index] = { ...users[index], ...userData };
             if (userData.senha) {
@@ -291,7 +323,7 @@ class DatabaseManager {
     }
 
     // ===== MÉTODOS DE AUTENTICAÇÃO =====
-    
+
     // Autenticar usuário
     authenticate(email, senha) {
         const user = this.getUserByEmail(email);
@@ -313,7 +345,7 @@ class DatabaseManager {
             loginTime: new Date().toISOString(),
             expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString() // 24 horas
         };
-        
+
         localStorage.setItem('lookEasySession', JSON.stringify(session));
         return session;
     }
@@ -325,7 +357,7 @@ class DatabaseManager {
             const sessionData = JSON.parse(session);
             const now = new Date();
             const expiresAt = new Date(sessionData.expiresAt);
-            
+
             if (now < expiresAt) {
                 return sessionData;
             } else {
@@ -352,7 +384,7 @@ class DatabaseManager {
     }
 
     // ===== MÉTODOS DE PRODUTOS =====
-    
+
     // Obter todos os produtos
     getProducts() {
         const products = localStorage.getItem('lookEasyProducts');
@@ -374,42 +406,42 @@ class DatabaseManager {
     // Filtrar produtos
     filterProducts(filters = {}) {
         let products = this.getProducts().filter(product => product.ativo);
-        
+
         if (filters.categoria && filters.categoria !== 'todos') {
             products = products.filter(p => p.categoria === filters.categoria);
         }
-        
+
         if (filters.genero) {
-            products = products.filter(p => 
-                p.categoria === filters.genero || 
+            products = products.filter(p =>
+                p.categoria === filters.genero ||
                 (filters.genero === 'outros' && !['feminino', 'masculino'].includes(p.categoria))
             );
         }
-        
+
         if (filters.precoMin) {
             products = products.filter(p => p.preco >= filters.precoMin);
         }
-        
+
         if (filters.precoMax) {
             products = products.filter(p => p.preco <= filters.precoMax);
         }
-        
+
         if (filters.tamanho) {
             products = products.filter(p => p.tamanhos.includes(filters.tamanho));
         }
-        
+
         if (filters.cor) {
             products = products.filter(p => p.cores.includes(filters.cor));
         }
-        
+
         if (filters.busca) {
             const busca = filters.busca.toLowerCase();
-            products = products.filter(p => 
+            products = products.filter(p =>
                 p.nome.toLowerCase().includes(busca) ||
                 p.descricao.toLowerCase().includes(busca)
             );
         }
-        
+
         return products;
     }
 
@@ -422,7 +454,7 @@ class DatabaseManager {
             dataCadastro: new Date().toISOString(),
             ativo: true
         };
-        
+
         products.push(newProduct);
         localStorage.setItem('lookEasyProducts', JSON.stringify(products));
         return newProduct;
@@ -432,7 +464,7 @@ class DatabaseManager {
     updateProduct(id, productData) {
         const products = this.getProducts();
         const index = products.findIndex(product => product.id === parseInt(id));
-        
+
         if (index !== -1) {
             products[index] = { ...products[index], ...productData };
             localStorage.setItem('lookEasyProducts', JSON.stringify(products));
@@ -465,7 +497,7 @@ class DatabaseManager {
     }
 
     // ===== MÉTODOS DE CARRINHO =====
-    
+
     // Obter carrinho do usuário
     getCart() {
         const cart = localStorage.getItem('lookEasyCart');
@@ -476,17 +508,17 @@ class DatabaseManager {
     addToCart(productId, quantidade = 1, tamanho = null, cor = null) {
         const cart = this.getCart();
         const product = this.getProductById(productId);
-        
+
         if (!product || product.estoque < quantidade) {
             return { success: false, message: "Produto indisponível ou sem estoque suficiente" };
         }
-        
-        const existingItem = cart.find(item => 
-            item.productId === productId && 
-            item.tamanho === tamanho && 
+
+        const existingItem = cart.find(item =>
+            item.productId === productId &&
+            item.tamanho === tamanho &&
             item.cor === cor
         );
-        
+
         if (existingItem) {
             const newQuantity = existingItem.quantidade + quantidade;
             if (product.estoque < newQuantity) {
@@ -506,7 +538,7 @@ class DatabaseManager {
                 addedAt: new Date().toISOString()
             });
         }
-        
+
         localStorage.setItem('lookEasyCart', JSON.stringify(cart));
         return { success: true, message: "Produto adicionado ao carrinho" };
     }
@@ -523,7 +555,7 @@ class DatabaseManager {
     updateCartItemQuantity(itemId, quantidade) {
         const cart = this.getCart();
         const item = cart.find(item => item.id === itemId);
-        
+
         if (item) {
             const product = this.getProductById(item.productId);
             if (product && product.estoque >= quantidade && quantidade > 0) {
@@ -534,7 +566,7 @@ class DatabaseManager {
                 return { success: false, message: "Quantidade indisponível em estoque" };
             }
         }
-        
+
         return { success: false, message: "Item não encontrado" };
     }
 
@@ -555,8 +587,84 @@ class DatabaseManager {
         return cart.reduce((total, item) => total + item.quantidade, 0);
     }
 
+    // ===== MÉTODOS DE PEDIDOS =====
+
+    // Obter todos os pedidos
+    getOrders() {
+        const orders = localStorage.getItem('lookEasyOrders');
+        return orders ? JSON.parse(orders) : [];
+    }
+
+    // Obter pedido por ID
+    getOrderById(id) {
+        const orders = this.getOrders();
+        return orders.find(order => order.id === parseInt(id));
+    }
+
+    // Obter pedidos por usuário
+    getOrdersByUser(userId) {
+        const orders = this.getOrders();
+        return orders.filter(order => order.userId === parseInt(userId))
+            .sort((a, b) => new Date(b.dataPedido) - new Date(a.dataPedido));
+    }
+
+    // Criar novo pedido
+    createOrder(userId, cart, total) {
+        const orders = this.getOrders();
+        const user = this.getUserById(userId);
+
+        if (!user || cart.length === 0) {
+            return { success: false, message: "Dados inválidos para criar pedido" };
+        }
+
+        const newOrder = {
+            id: orders.length > 0 ? Math.max(...orders.map(o => o.id)) + 1 : 1,
+            userId: userId,
+            nomeCliente: user.nome,
+            emailCliente: user.email,
+            itens: cart.map(item => ({
+                productId: item.productId,
+                nome: item.nome,
+                preco: item.preco,
+                quantidade: item.quantidade,
+                tamanho: item.tamanho,
+                cor: item.cor,
+                imagem: item.imagem
+            })),
+            total: total,
+            status: "pendente", // pendente, processando, enviado, entregue, cancelado
+            dataPedido: new Date().toISOString(),
+            dataAtualizacao: new Date().toISOString()
+        };
+
+        orders.push(newOrder);
+        localStorage.setItem('lookEasyOrders', JSON.stringify(orders));
+
+        return { success: true, order: newOrder };
+    }
+
+    // Atualizar status do pedido
+    updateOrderStatus(orderId, newStatus) {
+        const orders = this.getOrders();
+        const index = orders.findIndex(order => order.id === parseInt(orderId));
+
+        if (index !== -1) {
+            orders[index].status = newStatus;
+            orders[index].dataAtualizacao = new Date().toISOString();
+            localStorage.setItem('lookEasyOrders', JSON.stringify(orders));
+            return { success: true, order: orders[index] };
+        }
+
+        return { success: false, message: "Pedido não encontrado" };
+    }
+
+    // Cancelar pedido
+    cancelOrder(orderId) {
+        return this.updateOrderStatus(orderId, "cancelado");
+    }
+
     // ===== MÉTODOS DE CONFIGURAÇÕES =====
-    
+
     // Obter configurações
     getSettings() {
         const settings = localStorage.getItem('lookEasySettings');
@@ -572,7 +680,7 @@ class DatabaseManager {
     }
 
     // ===== MÉTODOS UTILITÁRIOS =====
-    
+
     // Limpar todos os dados (apenas para desenvolvimento)
     clearAllData() {
         localStorage.removeItem('lookEasyUsers');

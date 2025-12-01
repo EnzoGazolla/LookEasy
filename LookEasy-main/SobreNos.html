@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre Nós - LookEasy</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Header Principal -->
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo">
+                <a href="index.html" style="text-decoration: none; color: inherit;">
+                    <h1>LookEasy</h1>
+                </a>
+            </div>
+
+            <div class="search-bar">
+                <input type="text" placeholder="Buscar produtos...">
+                <button class="search-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="header-icons">
+                <div class="profile-container">
+                    <button class="icon-btn profile-btn" title="Perfil" onclick="toggleProfileMenu()">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                        </svg>
+                    </button>
+                    <div class="profile-dropdown" id="profileDropdown">
+                        <!-- Content will be populated dynamically -->
+                    </div>
+                </div>
+                <button class="icon-btn" title="Carrinho" onclick="openCart()">
+                    <div class="cart-icon-wrapper">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z" />
+                        </svg>
+                        <span id="cartCount" class="cart-count" style="display: none;">0</span>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <!-- Sub-header com Categorias -->
+        <div class="sub-header">
+            <div class="dropdown">
+                <button class="dropdown-btn" onclick="toggleDropdown()">
+                    Categorias ▼
+                </button>
+                <div class="dropdown-content" id="categoryDropdown">
+                    <a href="feminino.html">Feminino</a>
+                    <a href="masculino.html">Masculino</a>
+                    <a href="acessorios.html">Acessórios</a>
+                    <a href="outros.html">Outros</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <main class="main-content" style="margin-top: 120px; min-height: 60vh;">
+        <div class="container" style="max-width: 800px; margin: 0 auto;">
+            <h1 style="margin-bottom: 2rem; text-align: center;">Sobre a LookEasy</h1>
+
+            <div style="background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                <p style="margin-bottom: 1.5rem; font-size: 1.1rem;">
+                    Bem-vindo à <strong>LookEasy</strong>, sua loja de moda online favorita! Nascemos com a missão de
+                    democratizar o acesso às últimas tendências da moda, oferecendo produtos de alta qualidade a preços
+                    acessíveis.
+                </p>
+
+                <h2 style="margin: 2rem 0 1rem; color: var(--primary-yellow);">Nossa História</h2>
+                <p style="margin-bottom: 1.5rem;">
+                    Fundada em 2024, a LookEasy começou como um pequeno projeto universitário e rapidamente se
+                    transformou em uma plataforma robusta de e-commerce. Acreditamos que a moda é uma forma de expressão
+                    e que todos devem ter a oportunidade de se vestir bem e se sentir confiantes.
+                </p>
+
+                <h2 style="margin: 2rem 0 1rem; color: var(--primary-yellow);">Nossa Missão</h2>
+                <p style="margin-bottom: 1.5rem;">
+                    Proporcionar uma experiência de compra online fácil, segura e inspiradora. Queremos que você
+                    encontre o look perfeito para cada momento da sua vida, sem complicações.
+                </p>
+
+                <h2 style="margin: 2rem 0 1rem; color: var(--primary-yellow);">Nossos Valores</h2>
+                <ul style="margin-left: 1.5rem; margin-bottom: 1.5rem;">
+                    <li style="margin-bottom: 0.5rem;"><strong>Inovação:</strong> Buscamos sempre as melhores
+                        tecnologias para melhorar sua experiência.</li>
+                    <li style="margin-bottom: 0.5rem;"><strong>Qualidade:</strong> Selecionamos nossos produtos com
+                        rigor para garantir sua satisfação.</li>
+                    <li style="margin-bottom: 0.5rem;"><strong>Transparência:</strong> Relacionamento honesto e claro
+                        com nossos clientes.</li>
+                    <li style="margin-bottom: 0.5rem;"><strong>Sustentabilidade:</strong> Preocupamo-nos com o impacto
+                        ambiental de nossas operações.</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Institucional</h3>
+                <ul>
+                    <li><a href="SobreNos.html">Sobre nós</a></li>
+                    <li><a href="Atendimento.html">Atendimento</a></li>
+                    <li><a href="PoliticaDePrivacidade.html">Política de Privacidade</a></li>
+                    <li><a href="TrocasEDevolucoes.html">Trocas e Devoluções</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Redes Sociais</h3>
+                <div class="social-icons">
+                    <a href="https://www.facebook.com" target="_blank" title="Facebook"><i
+                            class="fab fa-facebook"></i></a>
+                    <a href="https://www.instagram.com" target="_blank" title="Instagram"><i
+                            class="fab fa-instagram"></i></a>
+                    <a href="https://twitter.com" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.youtube.com" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>Formas de Pagamento</h3>
+                <div class="payment-icons">
+                    <span class="payment-icon">💳 Visa</span>
+                    <span class="payment-icon">💳 Master</span>
+                    <span class="payment-icon">💳 Amex</span>
+                    <span class="payment-icon">💳 Pix</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal do Carrinho -->
+    <div id="cartModal" class="cart-modal">
+        <div class="cart-overlay" onclick="closeCart()"></div>
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2>Meu Carrinho</h2>
+                <button class="cart-close-btn" onclick="closeCart()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+                    </svg>
+                </button>
+            </div>
+
+            <div class="cart-body">
+                <div id="cartItems" class="cart-items"></div>
+                <div id="cartEmpty" class="cart-empty" style="display: none;">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="currentColor" style="opacity: 0.3;">
+                        <path
+                            d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z" />
+                    </svg>
+                    <p>Seu carrinho está vazio</p>
+                    <button class="continue-shopping-btn" onclick="closeCart()">Continuar Comprando</button>
+                </div>
+            </div>
+
+            <div class="cart-footer">
+                <div class="cart-total">
+                    <span>Total:</span>
+                    <span id="cartTotal">R$ 0,00</span>
+                </div>
+                <div class="cart-actions">
+                    <button class="clear-cart-btn" onclick="clearCart()">Limpar Carrinho</button>
+                    <button class="checkout-btn" onclick="checkout()">Finalizar Compra</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/database.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

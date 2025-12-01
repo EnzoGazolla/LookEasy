@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Admin - Dashboard | LookEasy</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        body { padding: 20px; font-family: Arial, sans-serif; }
+        h1 { margin-bottom: 8px; }
+        .section { margin-bottom: 28px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background: #f4f4f4; }
+        .btn { padding: 6px 10px; margin-right: 6px; cursor: pointer; }
+        .btn-danger { background: #e74c3c; color: white; border: none; }
+        .btn-primary { background: #3498db; color: white; border: none; }
+        .btn-secondary { background: #95a5a6; color: white; border: none; }
+        .small-input { width: 80px; }
+        .top-actions { margin-bottom: 12px; }
+        .flex-row { display:flex; gap:12px; align-items:center; }
+        .label { font-weight:600; }
+        .muted { color:#666; font-size:0.9rem; }
+    </style>
+</head>
+<body>
+    <header class="flex-row">
+        <div>
+            <h1>Dashboard de Administração</h1>
+            <div class="muted">Gerencie usuários, estoque e produtos</div>
+        </div>
+        <div style="margin-left:auto">
+            <a href="../index.html" class="btn btn-secondary">Voltar para Loja</a>
+            <button class="btn btn-danger logout-btn">Logout</button>
+        </div>
+    </header>
+
+    <main>
+        <section class="section" id="usersSection">
+            <div class="top-actions">
+                <span class="label">Usuários</span>
+                <span class="muted">(inativar / alterar função)</span>
+            </div>
+            <div id="usersContainer">Carregando usuários...</div>
+        </section>
+
+        <section class="section" id="productsSection">
+            <div class="top-actions">
+                <span class="label">Produtos</span>
+                <span class="muted">(editar estoque / inativar)</span>
+            </div>
+            <div id="productsContainer">Carregando produtos...</div>
+        </section>
+
+        <section class="section" id="createProductSection">
+            <div class="label">Cadastrar Novo Produto</div>
+            <form id="createProductForm">
+                <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
+                    <input required placeholder="Nome" name="nome">
+                    <input required placeholder="Categoria (feminino|masculino|acessorios|outros)" name="categoria">
+                    <input required type="number" step="0.01" placeholder="Preço" name="preco">
+                    <input required type="number" placeholder="Estoque" name="estoque">
+                    <input placeholder="Imagem URL" name="imagem">
+                  
+                </div>
+                <div style="margin-top:8px;">
+                    <textarea placeholder="Descrição" name="descricao" rows="3" style="width:100%"></textarea>
+                </div>
+                <div style="margin-top:8px;">
+                    <button class="btn btn-primary" type="submit">Cadastrar Produto</button>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <script src="../js/database.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>
